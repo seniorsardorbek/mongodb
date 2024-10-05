@@ -10,9 +10,25 @@ router.get('/users', async (req, res) => {
 });
 
 
+router.get('/users/:userId', async (req, res) => {
+    try {
+         const {userId} = req.params || {}
+
+         const user = await User.findById(userId);
+         res.status(200).send(user)
+
+    } catch (error) {
+        res.status(500).send('Error: ' + error.message);
+    }
+})
+
 router.post('/users', async (req, res) => {
     try {
         const user = new User(req.body);
+        const userExist  = await User.findOne({username : req.body?.username});
+        if(userExist){
+            return res.status(400).send({msg :"Username already exists"})
+        }
         await user.save();
         res.status(201).json(user);
     } catch (error) {
