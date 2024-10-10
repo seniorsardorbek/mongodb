@@ -6,6 +6,10 @@ dotenv.config()
         password :  process.env.DB_PASS,
         database : process.env.DB_NAME
     } ,
+    jwt : {
+        secret : process.env.JWT_SECRET ,
+        expiresIn : process.env.JWT_EXPIRES_IN,
+    } ,
     port : process.env.PORT
 }
 
